@@ -53,7 +53,7 @@ const SignIn = () => {
     <ScrollView style={styles.container}>
       <View style={styles.pageTitle}>
         <Text style={styles.title}>Sign In</Text>
-        <Text style={styles.subTitle}>Please login to your account.</Text>
+        <Text style={styles.subTitle}>Please login to your vendor account.</Text>
       </View>
       <View style={styles.loginSection}>
         <View style={styles.wrapper}>
