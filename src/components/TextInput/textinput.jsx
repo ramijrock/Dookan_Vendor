@@ -51,7 +51,7 @@ const TextInputComponent = ({
                 {
                     password ? 
                     <TouchableOpacity style={styles.rightIcon} onPress={() => setHidePassword(!hidePassword)}>
-                        <Ionicons name={hidePassword ? 'lock-closed-outline' : "lock-open-outline"} color={COLORS.iconColor} size={25} />
+                        <Ionicons name={hidePassword ? 'eye-off' : "eye"} color={COLORS.iconColor} size={25} />
                     </TouchableOpacity> :
                     <Ionicons name={name} color={COLORS.iconColor} style={styles.rightIcon} size={25} />}
             </View>

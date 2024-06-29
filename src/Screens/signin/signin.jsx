@@ -26,21 +26,21 @@ const SignIn = () => {
 
   const validate = () => {
     Keyboard.dismiss();
-    // let valid = true;
+    let isValid = true;
     if (!inputs.email) {
       handleError('This field is required!', 'email');
-      return false;
+      isValid = false;
     } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
       handleError('Enter valid email!', 'email');
-      return false;
+      isValid = false;
     }
 
     if (!inputs.password) {
       handleError('This field is required!', 'password');
-      return false;
+      isValid = false;
     }
 
-    return true;
+    return isValid;
   };
 
   const handleSubmit = () => {
