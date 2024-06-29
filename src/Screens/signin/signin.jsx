@@ -64,7 +64,7 @@ const SignIn = () => {
         translucent
       />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.pageTitle}>
+        <View style={[styles.pageTitle, {marginTop: 74}]}>
           <Text style={styles.title}>Sign In</Text>
           <Text style={styles.subTitle}>
             Please login to your vendor account.

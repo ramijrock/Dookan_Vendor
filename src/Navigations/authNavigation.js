@@ -6,7 +6,8 @@ import {
     Register,
     ForgetPassword,
     // RegVerify,
-    // createPin
+    // createPin,
+    StoreInfo
 } from '../Screens';
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +19,7 @@ const AuthNavigation = () => {
             <Stack.Screen name="Login" component={SignIn} />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+            {/* <Stack.Screen name="StoreInfo" component={StoreInfo} /> */}
             {/* <Stack.Screen name="RegVerify" component={RegVerify} />
             <Stack.Screen name="CreatePin" component={createPin} /> */}
         </Stack.Navigator>

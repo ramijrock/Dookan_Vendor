@@ -24,9 +24,9 @@ const Navigation = () => {
             {
                 context.userData?.token == null ? (
                     <AuthNavigation />
-                ) : (
+                ) : context.userData?.vendor_info?.kyc_complete == "yes" ?  (
                     <AppNavigation />
-                )
+                ) : <KycStack vendor_info={context.userData.vendor_info} />
             }
         </NavigationContainer>
     )

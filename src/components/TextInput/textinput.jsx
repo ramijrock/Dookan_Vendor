@@ -17,6 +17,8 @@ const TextInputComponent = ({
     onFocus = () => {}, 
     maxLength, 
     secureTextEntry,
+    multine,
+    editable,
     ...props
 }) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -25,16 +27,18 @@ const TextInputComponent = ({
         <>
             <View style={[styles.inputBox, {
                 paddingLeft: leftName ? 35 : 10,
-                borderColor: errorMessage ? 'red' : isFocused ? COLORS.primary : null,
+                borderColor: errorMessage ? COLORS.error : isFocused ? COLORS.primary : null,
+                height: multine ? 150 : null,
             }]}>
                 <TextInput 
                     {...props}
                     autoCorrect={false}
                     placeholder={placeholder} 
                     placeholderTextColor={placeholderTextColor} 
-                    style={styles.input}
+                    style={[styles.input, {height: multine ? 150 : null, textAlignVertical: multine ? 'top' : "auto", flex:1}]}
                     cursorColor={COLORS.textColor}
                     value={value}
+                    editable={editable}
                     keyboardType={keyboardType}
                     onChangeText={onChangeText}
                     onFocus={() => {
@@ -46,6 +50,7 @@ const TextInputComponent = ({
                     }}
                     maxLength={maxLength}
                     secureTextEntry={hidePassword}
+                    multiline={multine}
                 />
                 <Ionicons name={leftName} color={COLORS.iconColor} style={styles.leftIcon} size={25} />
                 {
