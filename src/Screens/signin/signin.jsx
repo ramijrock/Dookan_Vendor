@@ -1,5 +1,12 @@
-import React, { useContext, useState } from 'react';
-import {ScrollView, Text, StyleSheet, View, Keyboard} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {
+  ScrollView,
+  Text,
+  StyleSheet,
+  View,
+  Keyboard,
+  StatusBar,
+} from 'react-native';
 import {COLORS} from '../../utils/globalColors';
 import {useNavigation} from '@react-navigation/native';
 import {Button, CheckBox, SocialButton, TextInput} from '../../components';
@@ -45,86 +52,97 @@ const SignIn = () => {
 
   const handleSubmit = () => {
     if (validate()) {
-        console.log('data');
+      console.log('data');
     }
-  }
+  };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.pageTitle}>
-        <Text style={styles.title}>Sign In</Text>
-        <Text style={styles.subTitle}>Please login to your vendor account.</Text>
-      </View>
-      <View style={styles.loginSection}>
-        <View style={styles.wrapper}>
-          <TextInput
-            placeholder={'Email/Phone'}
-            name={'mail-outline'}
-            onChangeText={text => handleOnChangeText(text, 'email')}
-            onFocus={() => handleError(null, 'email')}
-            keyboardType={'email-address'}
-            errorMessage={errors.email}
-            placeholderTextColor={COLORS.textColor}
-          />
-        </View>
-        <View style={styles.wrapper}>
-          <TextInput
-            placeholder={'Password'}
-            placeholderTextColor={COLORS.textColor}
-            password
-            onChangeText={text => handleOnChangeText(text, 'password')}
-            errorMessage={errors.password}
-            onFocus={() => handleError(null, 'password')}
-          />
-        </View>
-        <View
-          style={[styles.wrapper, styles.forgetSection, {marginBottom: 20}]}>
-          <View>
-            <CheckBox
-              title={'Remember me'}
-              onPress={() => {
-                setInputs({remember: !remember});
-              }}
-              checked={inputs.remember}
-            />
-          </View>
-          <Text
-            onPress={() => navigation.navigate('ForgetPassword')}
-            style={styles.forgetText}>
-            Forget Password?
+    <View style={styles.container}>
+      <StatusBar
+        barStyle={'dark-content'}
+        backgroundColor={COLORS.white}
+        translucent
+      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.pageTitle}>
+          <Text style={styles.title}>Sign In</Text>
+          <Text style={styles.subTitle}>
+            Please login to your vendor account.
           </Text>
         </View>
-        <View style={styles.btnSection}>
-          <Button
-            height={50}
-            btnName={'Sign In'}
-            fontSize={18}
-            borderRadius={10}
-            onPress={handleSubmit}
-            // loading={loading}
-            color={COLORS.textColor}
-          />
+        <View style={styles.loginSection}>
+          <View style={styles.wrapper}>
+            <TextInput
+              placeholder={'Email/Phone'}
+              name={'mail-outline'}
+              onChangeText={text => handleOnChangeText(text, 'email')}
+              onFocus={() => handleError(null, 'email')}
+              keyboardType={'email-address'}
+              errorMessage={errors.email}
+              placeholderTextColor={COLORS.textColor}
+            />
+          </View>
+          <View style={styles.wrapper}>
+            <TextInput
+              placeholder={'Password'}
+              placeholderTextColor={COLORS.textColor}
+              password
+              onChangeText={text => handleOnChangeText(text, 'password')}
+              errorMessage={errors.password}
+              onFocus={() => handleError(null, 'password')}
+            />
+          </View>
+          <View
+            style={[styles.wrapper, styles.forgetSection, {marginBottom: 20}]}>
+            <View>
+              <CheckBox
+                title={'Remember me'}
+                onPress={() => {
+                  setInputs({remember: !remember});
+                }}
+                checked={inputs.remember}
+              />
+            </View>
+            <Text
+              onPress={() => navigation.navigate('ForgetPassword')}
+              style={styles.forgetText}>
+              Forget Password?
+            </Text>
+          </View>
+          <View style={styles.btnSection}>
+            <Button
+              height={50}
+              btnName={'Sign In'}
+              fontSize={18}
+              borderRadius={10}
+              onPress={handleSubmit}
+              // loading={loading}
+              color={COLORS.textColor}
+            />
+          </View>
+          <View>
+            <Text style={styles.orText}>Or</Text>
+          </View>
+          <View style={styles.socialSection}>
+            <SocialButton
+              source={require('../../assets/images/facebook.png')}
+            />
+            <SocialButton source={require('../../assets/images/google.png')} />
+          </View>
         </View>
-        <View>
-          <Text style={styles.orText}>Or</Text>
+        <View style={styles.account}>
+          <Text style={styles.subTitle}>Don't have an account?</Text>
+          <Text
+            onPress={() => navigation.navigate('Register')}
+            style={[
+              styles.subTitle,
+              {color: COLORS.primary, marginHorizontal: 5, fontWeight: 'bold'},
+            ]}>
+            Register
+          </Text>
         </View>
-        <View style={styles.socialSection}>
-          <SocialButton source={require('../../assets/images/facebook.png')} />
-          <SocialButton source={require('../../assets/images/google.png')} />
-        </View>
-      </View>
-      <View style={styles.account}>
-        <Text style={styles.subTitle}>Don't have an account?</Text>
-        <Text
-          onPress={() => navigation.navigate('Register')}
-          style={[
-            styles.subTitle,
-            {color: COLORS.primary, marginHorizontal: 5, fontWeight: 'bold'},
-          ]}>
-          Register
-        </Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -132,7 +150,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
-    // backgroundColor:COLORS.white
+    // backgroundColor:COLORS.lightGrey
   },
   pageTitle: {
     marginTop: 30,
