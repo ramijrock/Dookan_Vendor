@@ -4,3 +4,6 @@ export { default as Register } from './register';
 export { default as ForgetPassword } from './forgetPassword';
 export { default as StoreOwnerInfo } from './storeOwnerInfo';
 export { default as StoreInfo } from './storeInfo';
+export { default as BankInformation } from './bankinfo';
+export { default as UploadDocument } from './uploadDocument';
+export { default as KycSubmitted } from './kycSubmit';

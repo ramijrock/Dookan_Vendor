@@ -9,12 +9,12 @@ import {
   Keyboard,
   TouchableOpacity,
   ImageBackground,
-  PermissionsAndroid
+  PermissionsAndroid,
 } from 'react-native';
 import {COLORS} from '../../utils/globalColors';
 import {Arrow, Button, TextInput} from '../../components';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { launchImageLibrary } from "react-native-image-picker";
+import {launchImageLibrary} from 'react-native-image-picker';
 import Geolocation from 'react-native-geolocation-service';
 
 const StoreOwnerInformation = () => {
@@ -29,7 +29,7 @@ const StoreOwnerInformation = () => {
   });
   const [location, setLocation] = useState({
     latitude: '',
-    longitude: ''
+    longitude: '',
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -48,8 +48,8 @@ const StoreOwnerInformation = () => {
       mediaType: 'photo',
       includeBase64: false,
     };
-  
-    launchImageLibrary(options, (response) => {
+
+    launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -93,16 +93,16 @@ const StoreOwnerInformation = () => {
         Geolocation.getCurrentPosition(
           position => {
             setLocation({
-                latitude: position.coords.latitude?.toString(),
-                longitude: position?.coords?.longitude?.toString()
+              latitude: position.coords.latitude?.toString(),
+              longitude: position?.coords?.longitude?.toString(),
             });
           },
           error => {
             // See error code charts below.
             console.log(error.code, error.message);
-            setLocation({latitude: "", longitude: ""});
+            setLocation({latitude: '', longitude: ''});
           },
-        //   {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+          //   {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
         );
       }
     });
@@ -248,30 +248,51 @@ const StoreOwnerInformation = () => {
               multine={true}
             />
           </View>
-          {inputs.image ? 
-            <View style={{borderWidth:1, borderRadius:8, borderColor: COLORS.lightPrimary}}>
-                <ImageBackground source={{uri: inputs.image}} style={styles.image}>
-                <View style={{ alignSelf:'center', bottom:0, position:'absolute'}}>
-                    <Button btnName={"Remove Image"} backgroundColor={"transparent"} borderWidth={1} borderRadius={8} borderColor={COLORS.error} color={COLORS.error}fontSize={16} height={35} onPress={() => setInputs({image: null})} />
+          {inputs.image ? (
+            <View
+              style={{
+                borderWidth: 1,
+                borderRadius: 8,
+                borderColor: COLORS.lightPrimary,
+              }}>
+              <ImageBackground
+                source={{uri: inputs.image}}
+                style={styles.image}>
+                <View
+                  style={{
+                    alignSelf: 'center',
+                    bottom: 0,
+                    position: 'absolute',
+                  }}>
+                  <Button
+                    btnName={'Remove Image'}
+                    backgroundColor={'transparent'}
+                    borderWidth={1}
+                    borderRadius={8}
+                    borderColor={COLORS.error}
+                    color={COLORS.error}
+                    fontSize={16}
+                    height={35}
+                    onPress={() => setInputs({image: null})}
+                  />
                 </View>
-                </ImageBackground>
-            </View> :<View style={styles.imageSection}>
-            <TouchableOpacity
-              style={{alignItems: 'center'}}
-              activeOpacity={0.8}
-              onPress={openImagePicker}
-            >
-              <MaterialIcons
-                name="add-to-photos"
-                size={36}
-                color={COLORS.iconColor}
-              />
-              <Text
-                style={styles.addPhotoText}>
-                Add Store Image
-              </Text>
-            </TouchableOpacity>
-          </View>}
+              </ImageBackground>
+            </View>
+          ) : (
+            <View style={styles.imageSection}>
+              <TouchableOpacity
+                style={{alignItems: 'center'}}
+                activeOpacity={0.8}
+                onPress={openImagePicker}>
+                <MaterialIcons
+                  name="add-to-photos"
+                  size={36}
+                  color={COLORS.iconColor}
+                />
+                <Text style={styles.addPhotoText}>Add Store Image</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
         <View style={styles.btnSection}>
           <Button
@@ -348,18 +369,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  addPhotoText:{
+  addPhotoText: {
     fontSize: 16,
     fontWeight: '600',
     color: COLORS.textColor,
     marginTop: 4,
   },
-  image:{
-    height:180,
-    resizeMode:"cover",
-    borderRadius:8,
-    marginVertical:8
-  }
+  image: {
+    height: 180,
+    resizeMode: 'cover',
+    borderRadius: 8,
+    marginVertical: 8,
+  },
 });
 
 export default StoreOwnerInformation;

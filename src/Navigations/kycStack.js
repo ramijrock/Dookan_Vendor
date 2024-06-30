@@ -1,7 +1,7 @@
 import {
   createStackNavigator
 } from "@react-navigation/stack";
-import { StoreOwnerInfo, StoreInfo } from "../Screens";
+import { StoreOwnerInfo, StoreInfo, BankInformation, UploadDocument, KycSubmitted } from "../Screens";
 
 const KycStack = ({vendor_info}) => {
   let initialRoute = "StoreOwnerInfo";
@@ -27,9 +27,9 @@ const KycStack = ({vendor_info}) => {
       
       <Stack.Screen name="StoreOwnerInfo" component={StoreOwnerInfo} />
       <Stack.Screen name="StoreInfo" component={StoreInfo} />
-      {/* <Stack.Screen name="BankInformation" component={BankInformation} />
+      <Stack.Screen name="BankInformation" component={BankInformation} />
       <Stack.Screen name="UploadDocument" component={UploadDocument} />
-      <Stack.Screen name="KycSubmitted" component={KycSubmitted} /> */}
+      <Stack.Screen name="KycSubmitted" component={KycSubmitted} />
     </Stack.Navigator>
   );
   
