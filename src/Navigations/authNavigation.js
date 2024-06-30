@@ -7,17 +7,19 @@ import {
     ForgetPassword,
     // RegVerify,
     // createPin,
+    StoreOwnerInfo
 } from '../Screens';
 
 const Stack = createNativeStackNavigator();
 
 const AuthNavigation = () => {
     return(
-        <Stack.Navigator initialRouteName={"KycSubmitted"} screenOptions={{headerShown: false}}>
+        <Stack.Navigator initialRouteName={"Onboarding"} screenOptions={{headerShown: false}}>
             <Stack.Screen name="Onboarding" component={Onboarding} />
             <Stack.Screen name="Login" component={SignIn} />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+            {/* <Stack.Screen name="StoreOwnerInfo" component={StoreOwnerInfo} /> */}
             {/* <Stack.Screen name="RegVerify" component={RegVerify} />
             <Stack.Screen name="CreatePin" component={createPin} /> */}
         </Stack.Navigator>
