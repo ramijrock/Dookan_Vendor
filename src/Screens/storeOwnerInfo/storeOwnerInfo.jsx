@@ -42,6 +42,7 @@ const StoreOwnerInformation = () => {
     let phoneRegx = /^[1-9]\d{1,14}$/;;
     let emailRegx = /\S+@\S+\.\S+/;
     let panRegx = /^[a-zA-Z]{5}[0-9]{4}[a-zA-Z]$/;
+    let aadharRegx = /^\d{12}$/;
     let cityRegx = /^(?![\s,-]*$)[a-zA-Z\s\-,]+$/;
 
     if (!inputs.fullName) {
