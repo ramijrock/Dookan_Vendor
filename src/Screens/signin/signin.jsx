@@ -16,8 +16,7 @@ const SignIn = () => {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState({
     email: '',
-    password: '',
-    remember: false,
+    password: ''
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -94,15 +93,6 @@ const SignIn = () => {
           </View>
           <View
             style={[styles.wrapper, styles.forgetSection, {marginBottom: 20}]}>
-            <View>
-              <CheckBox
-                title={'Remember me'}
-                onPress={() => {
-                  setInputs({remember: !remember});
-                }}
-                checked={inputs.remember}
-              />
-            </View>
             <Text
               onPress={() => navigation.navigate('ForgetPassword')}
               style={styles.forgetText}>
@@ -184,8 +174,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   forgetSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems:'flex-end'
   },
   forgetText: {
     color: COLORS.textColor,

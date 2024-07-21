@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
-import {View, Text, StyleSheet, Image, TextInput} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, StatusBar} from 'react-native';
 import {Arrow, Button} from '../../components';
 import {COLORS} from '../../utils/globalColors';
 
@@ -13,7 +13,12 @@ const ForgetPassword = () => {
   const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
   return (
     <View style={styles.container}>
-      <View style={{marginBottom: 15}}>
+      <StatusBar
+        barStyle={'dark-content'}
+        backgroundColor={COLORS.white}
+        translucent
+      />
+      <View style={{marginBottom: 15, marginTop: 24}}>
         <Arrow onPress={() => navigation.goBack()} name={'chevron-back'} />
       </View>
       <View style={styles.pageTitle}>
