@@ -17,6 +17,7 @@ import {
   SocialButton,
   TextInput,
 } from '../../components';
+import { register } from '../../services/Auth';
 
 const Register = () => {
   const navigation = useNavigation();
@@ -45,7 +46,6 @@ const Register = () => {
     let isValid = true;
     let passRegx = '[A-Z][a-z]*[0-9][a-z]*';
     let emailRegx = '[a-z0-9_-.]+[@][a-z]+[.][a-z]{2 3}';
-    console.log(inputs);
 
     if (!inputs.name) {
       handleError('This field is required!', 'name');
@@ -94,7 +94,20 @@ const Register = () => {
 
   const handleSubmit = () => {
     if (validate()) {
-      console.log('called');
+      let obj = {
+
+      }
+      setLoading(true);
+      register(obj)
+        .then((res) => {
+          console.log('res=====>', res);
+        })
+        .catch((err) => {
+          console.log('error', err);
+        })
+        .finally(() => {
+          setLoading(false);
+        })
     }
   };
 
