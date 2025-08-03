@@ -9,8 +9,9 @@ import {
 } from 'react-native';
 import {COLORS} from '../../utils/globalColors';
 import {useNavigation} from '@react-navigation/native';
-import {Button, CheckBox, SocialButton, TextInput} from '../../components';
+import {Button, SocialButton, TextInput} from '../../components';
 import AppContext from '../../context/appContext';
+import { login } from '../../services/Auth';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -51,7 +52,22 @@ const SignIn = () => {
 
   const handleSubmit = () => {
     if (validate()) {
-      console.log('data');
+      let obj = {
+        email: inputs?.email,
+        password: inputs?.password
+      }
+      console.log('data', obj);
+      setLoading(true);
+      login(obj)
+        .then((res) => {
+          console.log('res=====>', res);
+        })
+        .catch((err) => {
+          console.log('error', err);
+        })
+        .finally(() => {
+          setLoading(false);
+        })
     }
   };
 
@@ -106,7 +122,7 @@ const SignIn = () => {
               fontSize={18}
               borderRadius={10}
               onPress={handleSubmit}
-              // loading={loading}
+              loading={loading}
               color={COLORS.textColor}
             />
           </View>

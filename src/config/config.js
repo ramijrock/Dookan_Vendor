@@ -1,6 +1,6 @@
-const isDev = false; //false mean staging
+const isDev = true; //false mean staging
 export default {
-    BASE_URL: isDev ? "http://localhost:3000/admin/" : "https://dokan-app-master-zzk8.onrender.com/admin/",
+    BASE_URL: isDev ? "http://localhost:8080/" : "https://gro-mart-admin.onrender.com/admin/",
     SUCCESS_TYPE: "success",
     ERROR_TYPE: "error",
     ALERT_TYPE: "alert",

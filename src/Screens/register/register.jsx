@@ -84,23 +84,23 @@ const Register = () => {
       isValid = false;
     }
 
-    if (!inputs.terms) {
-      handleError('Tick this field', 'terms');
-      isValid = false;
-    }
-
     return isValid;
   };
 
   const handleSubmit = () => {
     if (validate()) {
       let obj = {
-
+        name: inputs?.name,
+        email: inputs?.email,
+        mobile: inputs?.phone,
+        password: inputs?.password,
+        role: "vendor"
       }
       setLoading(true);
       register(obj)
         .then((res) => {
           console.log('res=====>', res);
+          navigation.navigate('Login');
         })
         .catch((err) => {
           console.log('error', err);
@@ -183,17 +183,6 @@ const Register = () => {
               onChangeText={text => handleOnChangeText(text, 'cPassword')}
               onFocus={() => handleError(null, 'cPassword')}
               errorMessage={errors.cPassword}
-            />
-          </View>
-          <View style={[styles.wrapper, {marginBottom: 20}]}>
-            <CheckBox
-              title={'Agree our terms and service'}
-              onPress={() => {
-                handleOnChangeText(!inputs.terms, 'terms');
-              }}
-              onFocus={() => handleError(null, 'terms')}
-              checked={inputs.terms}
-              errorMessage={errors.terms}
             />
           </View>
         </View>
