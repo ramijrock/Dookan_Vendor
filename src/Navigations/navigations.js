@@ -8,6 +8,9 @@ import { useSelector } from 'react-redux';
 const Navigation = () => {
   const {userToken, userDetails} = useSelector((state) => state.authReducer);
 
+  let vendor_info = {
+    onboarding_steps_completed: true
+  }
   return (
     <NavigationContainer>
       {userToken == null ? (
@@ -15,7 +18,7 @@ const Navigation = () => {
       ) : userDetails?.vendor_info?.kyc_complete == 'yes' ? (
         <AppNavigation />
       ) : (
-        <KycStack vendor_info={userDetails.vendor_info} />
+        <KycStack vendor_info={vendor_info} />
       )}
     </NavigationContainer>
   );

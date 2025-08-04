@@ -6,7 +6,7 @@ const getJson = (obj) => {
 };
 
 const getUserToken = async () => {
-  const data = (await readData("user_Data")) ?? null;
+  const data = (await readData("user_token")) ?? null;
   return data;
 };
 
@@ -17,7 +17,7 @@ export async function sendAuthPostData(url, obj) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: token,
+      Authorization: "Bearer " + token,
     },
     body: getJson(obj),
   });
@@ -85,6 +85,24 @@ export async function sendGetRequest(url, params = {}) {
   });
   // console.log("response===", response);
   // return;
+  let data = await response.json();
+  if (!response.ok) {
+    throw new ValidationError(data.message, data.errors);
+  }
+  return data;
+}
+
+export async function sendAuthUpdateData(url, obj) {
+  console.log(url);
+  const token = await getUserToken();
+  let response = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: getJson(obj),
+  });
   let data = await response.json();
   if (!response.ok) {
     throw new ValidationError(data.message, data.errors);

@@ -7,29 +7,22 @@ import {
   StatusBar,
   ScrollView,
   Keyboard,
-  TouchableOpacity,
-  ImageBackground,
-  PermissionsAndroid
 } from 'react-native';
 import {COLORS} from '../../utils/globalColors';
 import {Arrow, Button, TextInput} from '../../components';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { launchImageLibrary } from "react-native-image-picker";
-import Geolocation from 'react-native-geolocation-service';
 
 const BankInformation = () => {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState({
+    accountNumber: '',
+    ifscCode: '',
+    accountHolderName: '',
     bankName: '',
-    account: '',
-    branchName: '',
-    ifscNumber: ''
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleOnChangeText = (text, input) => {
-    console.log(text);
     setInputs(prevState => ({...prevState, [input]: text}));
   };
 
@@ -40,24 +33,42 @@ const BankInformation = () => {
   const validate = () => {
     Keyboard.dismiss();
     let isValid = true;
+    let ifscRegx = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+    let accountRegx = /^[0-9]{9,18}$/;
 
+    // Account Holder Name validation
+    if (!inputs.accountHolderName) {
+      handleError('Account holder name is required!', 'accountHolderName');
+      isValid = false;
+    } else if (inputs.accountHolderName.length < 2 || inputs.accountHolderName.length > 50) {
+      handleError('Account holder name must be between 2 and 50 characters!', 'accountHolderName');
+      isValid = false;
+    }
+
+    // Bank Name validation
     if (!inputs.bankName) {
-      handleError('This field is required!', 'bankName');
+      handleError('Bank name is required!', 'bankName');
+      isValid = false;
+    } else if (inputs.bankName.length < 2 || inputs.bankName.length > 50) {
+      handleError('Bank name must be between 2 and 50 characters!', 'bankName');
       isValid = false;
     }
 
-    if (!inputs.account) {
-      handleError('This field is required!', 'account');
+    // Account Number validation
+    if (!inputs.accountNumber) {
+      handleError('Account number is required!', 'accountNumber');
+      isValid = false;
+    } else if (!inputs.accountNumber.match(accountRegx)) {
+      handleError('Enter valid account number (9-18 digits)!', 'accountNumber');
       isValid = false;
     }
 
-    if (!inputs.branchName) {
-      handleError('This field is required!', 'branchName');
+    // IFSC Code validation
+    if (!inputs.ifscCode) {
+      handleError('IFSC code is required!', 'ifscCode');
       isValid = false;
-    }
-
-    if (!inputs.ifscNumber) {
-      handleError('This field is required!', 'ifscNumber');
+    } else if (!inputs.ifscCode.match(ifscRegx)) {
+      handleError('Enter valid IFSC code!', 'ifscCode');
       isValid = false;
     }
 
@@ -66,7 +77,18 @@ const BankInformation = () => {
 
   const handleSubmit = () => {
     if (validate()) {
-      console.log('data');
+      const bankData = {
+        bankDetails: {
+          accountNumber: inputs.accountNumber,
+          ifscCode: inputs.ifscCode.toUpperCase(),
+          accountHolderName: inputs.accountHolderName,
+          bankName: inputs.bankName,
+        },
+      };
+      
+      console.log('Bank data:', bankData);
+      // Navigate to next step
+      navigation.navigate('OperatingHours');
     }
   };
 
@@ -88,43 +110,46 @@ const BankInformation = () => {
         <View style={styles.inputSection}>
           <View style={styles.wrapper}>
             <TextInput
+              placeholder={'Account Holder Name*'}
+              placeholderTextColor={COLORS.textColor}
+              keyboardType={'default'}
+              onChangeText={text => handleOnChangeText(text, 'accountHolderName')}
+              onFocus={() => handleError(null, 'accountHolderName')}
+              errorMessage={errors.accountHolderName}
+              maxLength={50}
+            />
+          </View>
+          <View style={styles.wrapper}>
+            <TextInput
               placeholder={'Bank Name*'}
               placeholderTextColor={COLORS.textColor}
               keyboardType={'default'}
               onChangeText={text => handleOnChangeText(text, 'bankName')}
               onFocus={() => handleError(null, 'bankName')}
               errorMessage={errors.bankName}
+              maxLength={50}
             />
           </View>
           <View style={styles.wrapper}>
             <TextInput
               placeholder={'Account Number*'}
               placeholderTextColor={COLORS.textColor}
-              keyboardType={'default'}
-              onChangeText={text => handleOnChangeText(text, 'account')}
-              onFocus={() => handleError(null, 'account')}
-              errorMessage={errors.account}
+              keyboardType={'numeric'}
+              onChangeText={text => handleOnChangeText(text, 'accountNumber')}
+              onFocus={() => handleError(null, 'accountNumber')}
+              errorMessage={errors.accountNumber}
+              maxLength={18}
             />
           </View>
-          
-          <View style={[styles.wrapper]}>
+          <View style={styles.wrapper}>
             <TextInput
-              placeholder={'Branch Name*'}
+              placeholder={'IFSC Code*'}
               placeholderTextColor={COLORS.textColor}
               keyboardType={'default'}
-                onChangeText={text => handleOnChangeText(text, 'branchName')}
-                onFocus={() => handleError(null, 'branchName')}
-                errorMessage={errors.branchName}
-            />
-          </View>
-          <View style={[styles.wrapper]}>
-            <TextInput
-              placeholder={'IFSC Number*'}
-              placeholderTextColor={COLORS.textColor}
-              keyboardType={'default'}
-                onChangeText={text => handleOnChangeText(text, 'ifscNumber')}
-                onFocus={() => handleError(null, 'ifscNumber')}
-                errorMessage={errors.ifscNumber}
+              onChangeText={text => handleOnChangeText(text.toUpperCase(), 'ifscCode')}
+              onFocus={() => handleError(null, 'ifscCode')}
+              errorMessage={errors.ifscCode}
+              maxLength={11}
             />
           </View>
         </View>
@@ -148,7 +173,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    // backgroundColor: COLORS.white
   },
   titleSection: {
     marginVertical: 24,
@@ -169,11 +193,6 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     marginVertical: 5,
-  },
-  inputSectionTwo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
   },
   btnSection: {
     marginVertical: 20,

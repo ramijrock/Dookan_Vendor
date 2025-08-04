@@ -39,9 +39,9 @@ const StoreOwnerInformation = () => {
     let isValid = true;
 
     let fullnameRegx = /^(?=.*[a-zA-Z])[a-zA-Z0-9 ]*$/;
-    let phoneRegx = /^[1-9]\d{1,14}$/;;
+    let phoneRegx = /^[0-9]{10,15}$/;
     let emailRegx = /\S+@\S+\.\S+/;
-    let panRegx = /^[a-zA-Z]{5}[0-9]{4}[a-zA-Z]$/;
+    let panRegx = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
     let aadharRegx = /^\d{12}$/;
     let cityRegx = /^(?![\s,-]*$)[a-zA-Z\s\-,]+$/;
 
@@ -89,7 +89,7 @@ const StoreOwnerInformation = () => {
     } else if (inputs.aadhar?.length !== 12) {
       handleError('Enter valid Aadhar number!', 'aadhar');
       isValid = false;
-    } else if (!inputs.aadhar?.match(phoneRegx)) {
+    } else if (!inputs.aadhar?.match(aadharRegx)) {
       handleError('Enter valid Aadhar number!', 'aadhar');
       isValid = false;
     }
@@ -115,7 +115,19 @@ const StoreOwnerInformation = () => {
 
   const handleSubmit = () => {
     if (validate()) {
-      console.log('data');
+      const ownerData = {
+        contactPerson: inputs.fullName,
+        phone: inputs.mobile,
+        email: inputs.email,
+        panNumber: inputs.pan.toUpperCase(),
+        aadharNumber: inputs.aadhar,
+        city: inputs.city,
+        state: inputs.state,
+      };
+      
+      console.log('Owner data:', ownerData);
+      // Navigate to next step
+      navigation.navigate('StoreInfo');
     }
   };
 
@@ -154,14 +166,14 @@ const StoreOwnerInformation = () => {
               onChangeText={text => handleOnChangeText(text, 'mobile')}
               onFocus={() => handleError(null, 'mobile')}
               errorMessage={errors.mobile}
-              maxLength={10}
+              maxLength={15}
             />
           </View>
           <View style={styles.wrapper}>
             <TextInput
               placeholder={'Owner Email'}
               placeholderTextColor={COLORS.textColor}
-              keyboardType={'default'}
+              keyboardType={'email-address'}
               onChangeText={text => handleOnChangeText(text, 'email')}
               onFocus={() => handleError(null, 'email')}
               errorMessage={errors.email}
@@ -184,7 +196,7 @@ const StoreOwnerInformation = () => {
               <TextInput
                 placeholder={'Owner Aadhar'}
                 placeholderTextColor={COLORS.textColor}
-                keyboardType={'default'}
+                keyboardType={'numeric'}
                 onChangeText={text => handleOnChangeText(text, 'aadhar')}
                 onFocus={() => handleError(null, 'aadhar')}
                 errorMessage={errors.aadhar}
@@ -235,7 +247,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    // backgroundColor: COLORS.white
   },
   titleSection: {
     marginVertical: 24,
