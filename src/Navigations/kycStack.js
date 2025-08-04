@@ -19,6 +19,7 @@ const KycStack = ({vendor_info}) => {
   // }else if(vendor_info.onboarding_steps_completed == 6){
   //   initialRoute = "KycSubmitted"
   // }
+  
   const Stack = createNativeStackNavigator();
 
   return (
