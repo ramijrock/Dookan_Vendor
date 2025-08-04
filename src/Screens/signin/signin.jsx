@@ -12,9 +12,13 @@ import {useNavigation} from '@react-navigation/native';
 import {Button, SocialButton, TextInput} from '../../components';
 import AppContext from '../../context/appContext';
 import { login } from '../../services/Auth';
+import { writeData } from '../../utils/Utils';
+import { signIn } from '../../store/reducers/authSlice';
+import { useDispatch } from 'react-redux';
 
 const SignIn = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [inputs, setInputs] = useState({
     email: '',
     password: ''
@@ -56,11 +60,17 @@ const SignIn = () => {
         email: inputs?.email,
         password: inputs?.password
       }
-      console.log('data', obj);
       setLoading(true);
       login(obj)
         .then((res) => {
-          console.log('res=====>', res);
+          writeData('user_details', res.user);
+          writeData('user_token', res.token);
+          writeData('sign_type', res.user.role);
+          dispatch(signIn({
+            userToken: res.token,
+            signType: res.user.role,
+            userDetails: res.user,
+          }));
         })
         .catch((err) => {
           console.log('error', err);

@@ -18,7 +18,7 @@ export const authSlice = createSlice({
       state,
       action,
     ) => {
-      state.userToken = action.payload.token;
+      state.userToken = action.payload.userToken || action.payload.token;
       state.signType = action.payload.signType;
       state.userDetails = action.payload.userDetails;
     },

@@ -1,30 +1,42 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import GlobalState from './src/context/globalState';
-import {readData} from './src/utils/Utils';
+import { readData } from './src/utils/Utils';
 import Navigation from './src/Navigations/navigations';
 import 'react-native-gesture-handler';
-import {SafeAreaView} from 'react-native';
+import { SafeAreaView } from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
+import { signIn } from './src/store/reducers/authSlice';
 
 const App = () => {
-  const [userData, setUserData] = useState(null);
-
   useEffect(() => {
     SplashScreen.hide();
     CheckUserData();
   }, []);
 
   const CheckUserData = async () => {
-    let UserData = await readData('user_details');
-    setUserData(UserData);
+    let userDetails = await readData('user_details');
+    let userToken = await readData('user_token');
+    let signType = await readData('sign_type');
+
+    if (userToken && userDetails) {
+      store.dispatch(signIn({
+        userDetails: userDetails,
+        userToken: userToken,
+        signType: signType,
+      }));
+      console.log('Store after dispatch:', store.getState());
+    } else {
+      console.log('No stored user data found');
+    }
   };
 
   return (
-    <GlobalState dataUser={userData}>
-      <SafeAreaView style={{flex: 1}}>
+    <Provider store={store}>
+      <SafeAreaView style={{ flex: 1 }}>
         <Navigation />
       </SafeAreaView>
-    </GlobalState>
+    </Provider>
   );
 };
 

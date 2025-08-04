@@ -9,7 +9,9 @@ const AuthNavigation = () => {
     return (
         // <Stack.Navigator initialRouteName="BottomTab" screenOptions={{headerShown: false}}>
         // </Stack.Navigator>
-        <></>
+        <>
+        <Text>HI Vendor</Text>
+        </>
     )
 }
 

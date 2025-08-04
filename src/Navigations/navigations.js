@@ -1,30 +1,21 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {readData} from '../utils/Utils';
-import appContext from '../context/appContext';
 import AppNavigation from './appNavigation';
 import AuthNavigation from './authNavigation';
+import KycStack from './kycStack';
+import { useSelector } from 'react-redux';
 
 const Navigation = () => {
-  const context = useContext(appContext);
-
-  useEffect(() => {
-    CheckUserData();
-  }, []);
-
-  const CheckUserData = async () => {
-    let userData = await readData('user_details');
-    context.setUserData(userData);
-  };
+  const {userToken, userDetails} = useSelector((state) => state.authReducer);
 
   return (
     <NavigationContainer>
-      {context.userData?.token == null ? (
+      {userToken == null ? (
         <AuthNavigation />
-      ) : context.userData?.vendor_info?.kyc_complete == 'yes' ? (
+      ) : userDetails?.vendor_info?.kyc_complete == 'yes' ? (
         <AppNavigation />
       ) : (
-        <KycStack vendor_info={context.userData.vendor_info} />
+        <KycStack vendor_info={userDetails.vendor_info} />
       )}
     </NavigationContainer>
   );

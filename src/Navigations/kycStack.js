@@ -1,6 +1,6 @@
 import {
-  createStackNavigator
-} from "@react-navigation/stack";
+  createNativeStackNavigator
+} from "@react-navigation/native-stack";
 import { StoreOwnerInfo, StoreInfo, BankInformation, UploadDocument, KycSubmitted } from "../Screens";
 
 const KycStack = ({vendor_info}) => {
@@ -16,7 +16,7 @@ const KycStack = ({vendor_info}) => {
   }else if(vendor_info.onboarding_steps_completed == 5){
     initialRoute = "KycSubmitted"
   }
-  const Stack = createStackNavigator();
+  const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
       initialRouteName={initialRoute}
